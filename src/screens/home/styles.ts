@@ -34,6 +34,7 @@ export const DietPercent = styled.View`
   padding: 20px 16px;
   margin: 40px 0;
   position: relative;
+  border-radius: 8px;
 `
 
 export const Percent = styled.Text`
@@ -68,5 +69,15 @@ export const ButtonIcon = styled.TouchableOpacity`
 
 export const IconArrow = styled(ArrowUpRight).attrs(({theme})=> ({
   size: 18,
-  color: theme.colors.green_dark
+  color: theme.colors.green_dark,
 }))``
+
+export const Subtitle = styled.Text`
+  ${({theme})=> css`
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.md}px;
+    color: ${theme.colors.gray100};
+  `}
+  line-height: 21px;
+  margin-bottom: 8px;
+`
