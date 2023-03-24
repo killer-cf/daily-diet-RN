@@ -3,6 +3,7 @@ import { Avatar, ButtonIcon, Container, DietPercent, Header, IconArrow, Percent,
 import logoPng from '@assets/logo.png'
 import { Button } from "@components/Button";
 import { Plus } from "phosphor-react-native";
+import { MealsDay } from "@components/MealsDay";
 
 export function Home(){
   return (
@@ -30,7 +31,14 @@ export function Home(){
         Refeições
       </Subtitle>
 
-      <Button CustomIcon={Plus} text='Nova refeição' />
+      <Button 
+        CustomIcon={Plus} 
+        text='Nova refeição'
+        style={{marginBottom: 32}}
+      />
+
+      <MealsDay />
+      <MealsDay />
     </Container>
   )
 }
