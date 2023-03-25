@@ -2,18 +2,6 @@ import { ArrowLeft } from "phosphor-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled(SafeAreaView)`
-  flex: 1;
-  width: 100%;
-  padding: 24px 24px 0;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  margin-top: -32px;
-  position: relative;
-  background: ${({theme})=> theme.colors.white};
-  gap: 12px;
-`
-
 const COLORS = {
   gray: 'gray600',
   green: 'green_light',
@@ -23,6 +11,22 @@ const COLORS = {
 type BoxProps = {
   backcolor: keyof typeof COLORS
 }
+
+export const Container = styled(SafeAreaView)<BoxProps>`
+  flex: 1;
+  width: 100%;   
+  background-color: ${({theme, backcolor})=> theme.colors[COLORS[backcolor]]};
+  `
+
+export const Content = styled.View`
+  flex: 1;
+  position: relative;
+  background: ${({theme})=> theme.colors.white};
+  gap: 12px;
+  padding: 24px 24px 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`
 
 export const Box = styled.View<BoxProps>`
   justify-content: space-between;
@@ -35,8 +39,9 @@ export const Box = styled.View<BoxProps>`
   background-color: ${({theme, backcolor})=> theme.colors[COLORS[backcolor]]};
 `
 
-export const Header = styled(Box)<BoxProps>`
-  height: 200px;
+export const Header = styled.View`
+  height: 120px;
+  justify-content: center;
 `
 
 export const Percent = styled.Text`
@@ -60,16 +65,16 @@ export const Text = styled.Text`
 `
 
 export const ButtonIcon = styled.TouchableOpacity`
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  left: 12px;
 `
 export const IconArrow = styled(ArrowLeft).attrs(({theme})=> ({
-  size: 18,
+  size: 24,
   color: theme.colors.green_dark,
 }))``
 

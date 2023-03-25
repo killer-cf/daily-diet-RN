@@ -24,7 +24,7 @@ export function Home(){
 
       </Header>
 
-      <DietPercent>
+      <DietPercent backcolor="green">
         <Percent>90,86%</Percent>
         <Text>das refeições dentro da dieta</Text>
         <ButtonIcon onPress={()=> navigator.navigate('statistics')}>

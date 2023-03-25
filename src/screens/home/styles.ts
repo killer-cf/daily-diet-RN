@@ -23,11 +23,21 @@ export const Avatar = styled.View`
     align-items: center;
 `
 
-export const DietPercent = styled.View`
+const COLORS = {
+  gray: 'gray600',
+  green: 'green_light',
+  red: 'red_light',
+} as const
+
+type BoxProps = {
+  backcolor: keyof typeof COLORS
+}
+
+export const DietPercent = styled.View<BoxProps>`
   height: 102px;
   flex-direction: row;
   justify-content: space-between;
-  background-color: ${({theme})=> theme.colors.green_light};
+  background-color: ${({theme, backcolor})=> theme.colors[COLORS[backcolor]]};
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -58,8 +68,8 @@ export const Text = styled.Text`
 `
 
 export const ButtonIcon = styled.TouchableOpacity`
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -68,7 +78,7 @@ export const ButtonIcon = styled.TouchableOpacity`
 `
 
 export const IconArrow = styled(ArrowUpRight).attrs(({theme})=> ({
-  size: 18,
+  size: 24,
   color: theme.colors.green_dark,
 }))``
 
