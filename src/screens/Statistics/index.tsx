@@ -1,13 +1,23 @@
+import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "styled-components/native";
 import { Container, StatisticBox, ButtonIcon, IconArrow, Percent, Text, Subtitle, Header, Title, BoxWraper, Content } from "./styles";
 
+type StatusColorsType = 'red' | 'green'
+
 export function Statistics() {
+  const { colors } = useTheme()
+  const navigator = useNavigation()
+
+  const dietPercent = 100
+  const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
+
   return (
-      <Container backcolor="green">
+      <Container backcolor={statusColor}>
         <Header>
           <Percent>90,86%</Percent>
           <Text>das refeições dentro da dieta</Text>
-          <ButtonIcon>
-            <IconArrow />
+          <ButtonIcon onPress={()=> navigator.navigate('home')}>
+            <IconArrow color={statusColor === 'green' ? colors.green_dark : colors.red_dark}/>
           </ButtonIcon>
         </Header>
 

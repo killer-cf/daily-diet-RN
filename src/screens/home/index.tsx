@@ -8,8 +8,12 @@ import logoPng from '@assets/logo.png'
 import { Button } from "@components/Button";
 import { MealsDay } from "@components/MealsDay";
 
+type StatusColorsType = 'red' | 'green'
+
 export function Home(){
   const navigator = useNavigation()
+  const dietPercent = 100
+  const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
 
   return (
     <Container>
@@ -24,7 +28,7 @@ export function Home(){
 
       </Header>
 
-      <DietPercent backcolor="green">
+      <DietPercent backcolor={statusColor}>
         <Percent>90,86%</Percent>
         <Text>das refeições dentro da dieta</Text>
         <ButtonIcon onPress={()=> navigator.navigate('statistics')}>
