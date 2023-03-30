@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { PencilLine, Trash } from "phosphor-react-native";
 import { View } from "react-native";
 import { useTheme } from "styled-components/native";
-import { ButtonIcon, ButtonsWrapper, Container, Content, DietStatus, DietStatusCircle, IconArrow, MealName, Span, Subtitle, Text, Title } from "./styles";
+import { ButtonIcon, ButtonsWrapper, Container, Content, DietStatus, DietStatusCircle, Header, IconArrow, MealName, Span, Subtitle, Text, Title } from "./styles";
 
 type StatusColorsType = 'red' | 'green'
 
@@ -16,12 +16,15 @@ export function Meal(){
 
   return (
     <Container backcolor={statusColor}>
-      <ButtonIcon onPress={()=> navigator.navigate('home')}>
+      <Header>
+        <ButtonIcon onPress={()=> navigator.navigate('home')}>
           <IconArrow color={statusColor === 'green' ? colors.green_dark : colors.red_dark}/>
-      </ButtonIcon>
-      <Title>
-        Refeição
-      </Title>
+        </ButtonIcon>
+        <Title>
+          Refeição
+        </Title>
+      </Header>
+      
       <Content>
         <View>
           <MealName>Sanduíche</MealName>

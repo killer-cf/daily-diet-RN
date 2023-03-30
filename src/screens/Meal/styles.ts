@@ -24,18 +24,24 @@ export const Title = styled.Text`
     color: ${theme.colors.gray100};
   `}
   line-height: 26px;
-  text-align: center;
-  height: 50px;
+`
+
+export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px 32px;
+  position: relative;
 `
 
 export const ButtonIcon = styled.TouchableOpacity`
-  width: 32px;
-  height: 32px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 42px;
-  left: 12px;
+width: 32px;
+height: 32px;
+justify-content: center;
+align-items: center;
+position: absolute;
+top: 0;
+left: 12px;
 `
 
 export const IconArrow = styled(ArrowLeft).attrs(({theme})=> ({
@@ -51,7 +57,8 @@ export const Content = styled.View`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 32px 24px;
-  padding-bottom: 60px;
+  padding-bottom: 90px;
+  margin-bottom: -40px;
 `
 
 export const Text = styled.Text`

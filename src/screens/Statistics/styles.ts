@@ -26,6 +26,7 @@ export const Content = styled.View`
   padding: 24px 24px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  margin-bottom: -40px;
 `
 
 export const Box = styled.View<BoxProps>`
