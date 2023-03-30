@@ -44,6 +44,7 @@ export function Home(){
         CustomIcon={Plus} 
         text='Nova refeição'
         style={{marginBottom: 32}}
+        onPress={()=> navigator.navigate('new_meal')}
       />
 
       <MealsDay />

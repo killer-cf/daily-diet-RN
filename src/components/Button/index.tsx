@@ -7,7 +7,7 @@ import { ButtonIconTypeStyleProps, Container, Text } from "./styles";
 type Props = TouchableOpacityProps & {
   type?: ButtonIconTypeStyleProps
   text: string
-  CustomIcon: Icon
+  CustomIcon?: Icon
 }
 
 export function Button({CustomIcon, text, type = 'PRIMARY', ...rest}: Props) {
@@ -21,7 +21,7 @@ export function Button({CustomIcon, text, type = 'PRIMARY', ...rest}: Props) {
           size: 18
         }}
       >
-        <CustomIcon style={{marginRight: 10}} />
+        { CustomIcon && <CustomIcon style={{marginRight: 10}} />}
       </IconContext.Provider>
       <Text type={type} >{text}</Text>
     </Container>

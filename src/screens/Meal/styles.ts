@@ -35,13 +35,13 @@ export const Header = styled.View`
 `
 
 export const ButtonIcon = styled.TouchableOpacity`
-width: 32px;
-height: 32px;
-justify-content: center;
-align-items: center;
-position: absolute;
-top: 0;
-left: 12px;
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 12px;
 `
 
 export const IconArrow = styled(ArrowLeft).attrs(({theme})=> ({
@@ -53,12 +53,11 @@ export const Content = styled.View`
   flex: 1;
   justify-content: space-between;
   background: ${({theme})=> theme.colors.white};
-  padding: 24px 24px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 32px 24px;
   padding-bottom: 90px;
-  margin-bottom: -40px;
+  margin-bottom: -70px;
 `
 
 export const Text = styled.Text`
@@ -122,5 +121,6 @@ export const DietStatusCircle = styled.View<DietStatusCircle>`
 `
 
 export const ButtonsWrapper = styled.View`
+  height: 108px;
   gap: 8px;
 `
