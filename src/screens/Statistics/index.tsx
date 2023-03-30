@@ -36,12 +36,12 @@ export function Statistics() {
 
           <BoxWraper>
 
-            <StatisticBox backcolor="green">
+            <StatisticBox style={{flex: 1}} backcolor="green">
               <Title>99</Title>
               <Text>refeições dentro da dieta</Text>
             </StatisticBox>
 
-            <StatisticBox backcolor="red">
+            <StatisticBox style={{flex: 1}} backcolor="red">
               <Title>10</Title>
               <Text>refeições fora da dieta</Text>
             </StatisticBox>
