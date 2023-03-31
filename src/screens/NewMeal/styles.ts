@@ -63,7 +63,6 @@ export const InputBoxDouble = styled.View`
 export const InputBoxesRow = styled.View`
   width: 100%;
   flex-direction: row;
-  margin-bottom: 24px;
   gap: 24px;
 `
 
@@ -82,4 +81,9 @@ export const Label = styled.Text`
   `}
   line-height: 18px;
   margin-bottom: 4px;
+`
+
+export const RadiosContainer = styled.View`
+  flex-direction: row;
+  gap: 8px;
 `
