@@ -4,12 +4,11 @@ import { View } from "react-native";
 import { Content, Header, Container, ButtonIcon, IconArrow, Title, InputBox, Label, InputBoxesRow, InputBoxDouble, InputText, RadiosContainer } from "./styles";
 import { Radio } from "@components/Radio";
 import { useState } from "react";
-
-type DietState = 'Na dieta' | 'Fora da dieta'
+import { DietStatusParams } from "src/@types/navigation";
 
 export function NewMeal() {
   const navigator = useNavigation()
-  const [buttonDietActive, setButtonDietActive] = useState<DietState>('Na dieta')
+  const [dietStatus, setDietStatus] = useState<DietStatusParams>('onDiet')
 
   return (
     <Container>
@@ -48,19 +47,22 @@ export function NewMeal() {
           <Label>Está dentro da dieta?</Label>
           <RadiosContainer>
             <Radio 
-              isActive={buttonDietActive === 'Na dieta'} 
-              onPress={()=> setButtonDietActive('Na dieta')}
+              isActive={dietStatus === 'onDiet'} 
+              onPress={()=> setDietStatus('onDiet')}
               text="Sim" 
               status_color="green"
             />
             <Radio 
-              isActive={buttonDietActive === 'Fora da dieta'} 
-              onPress={()=> setButtonDietActive('Fora da dieta')}
+              isActive={dietStatus === 'offDiet'} 
+              onPress={()=> setDietStatus('offDiet')}
               text="Não" 
               status_color="red" />
           </RadiosContainer>
         </View>
-        <Button text="Cadastrar refeição" />
+        <Button 
+          text="Cadastrar refeição" 
+          onPress={()=> 
+            navigator.navigate('create_meal_success', { dietStatus })} />
       </Content>
     </Container>
   )
