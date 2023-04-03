@@ -55,6 +55,7 @@ export function NewMeal() {
             <Label>Descrição</Label>
             <InputText 
               style={{height: 120}}
+              multiline
             />
           </InputBox>
           <InputBoxesRow>

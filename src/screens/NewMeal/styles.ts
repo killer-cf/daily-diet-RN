@@ -40,7 +40,7 @@ export const ButtonIcon = styled.TouchableOpacity`
 export const IconArrow = styled(ArrowLeft).attrs(({theme})=> ({
   size: 24,
   color: theme.colors.gray200,
-}))``
+}))``;
 
 export const Content = styled.View`
   flex: 1;
@@ -73,6 +73,13 @@ export const InputText = styled.TextInput`
   border-radius: 6px;
   padding: 14px;
   height: 48px;
+
+  ${({theme})=> css`
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.md}px;
+    color: ${theme.colors.gray100};
+  `}
+  line-height: 21px;
 `
 
 export const InputPicker = styled(TouchableOpacity)`
