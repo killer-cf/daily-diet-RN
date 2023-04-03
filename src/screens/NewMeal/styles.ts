@@ -1,6 +1,8 @@
 import { ArrowLeft } from "phosphor-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { css } from "styled-components/native";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { TouchableOpacity } from "react-native";
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
@@ -73,6 +75,14 @@ export const InputText = styled.TextInput`
   height: 48px;
 `
 
+export const InputPicker = styled(TouchableOpacity)`
+  border: 1px solid ${({theme})=> theme.colors.gray500};
+  padding: 0 14px;
+  border-radius: 6px;
+  height: 48px;
+  justify-content: center;
+`
+
 export const Label = styled.Text`
   ${({theme})=> css`
     font-family: ${theme.fontFamily.bold};
@@ -86,4 +96,25 @@ export const Label = styled.Text`
 export const RadiosContainer = styled.View`
   flex-direction: row;
   gap: 8px;
+`
+
+export const Placeholder = styled.Text`
+  ${({theme})=> css`
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.md}px;
+    color: ${theme.colors.gray100};
+  `}
+  line-height: 21px;
+`
+
+export const DateTimePickerContainer = styled.View`
+  flex: 1;
+  width: 100%;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({theme})=> theme.colors.white};
+  position: absolute;
+  border: 1px solid ${({theme})=> theme.colors.gray500};
+  border-radius: 6px;
 `
