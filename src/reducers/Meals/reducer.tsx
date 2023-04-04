@@ -10,7 +10,7 @@ export function MealsReducer(state: MealsState, action: any){
     case ActionTypes.ADD_NEW_MEAL:
       return {
       ...state,
-        meals: [...state.meals, action.newMeal]
+        meals: [...state.meals, action.payload.newMeal]
       }
     default: return state
   }

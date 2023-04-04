@@ -1,12 +1,14 @@
-import { Image } from "react-native";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { FlatList, Image } from "react-native";
 import { Plus } from "phosphor-react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { Avatar, ButtonIcon, Container, DietPercent, Header, IconArrow, Percent, Subtitle, Text } from "./styles";
 import logoPng from '@assets/logo.png'
 
 import { Button } from "@components/Button";
 import { MealsDay } from "@components/MealsDay";
+import { Meal, MealsContext } from "../../contexts/Meals";
 
 type StatusColorsType = 'red' | 'green'
 
@@ -14,6 +16,36 @@ export function Home(){
   const navigator = useNavigation()
   const dietPercent = 100
   const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
+
+  
+  const { meals } = useContext(MealsContext)
+
+  // const listMealsPerDay = meals.reduce((acc: any, meal) => {
+  //   let key = meal.date
+    
+  //   if (!acc[key]) {
+  //     acc[key] = []
+  //   }
+    
+  //   acc[key].push(meal)
+    
+  //   return acc
+  // }, {})
+
+  const listMealsPerDay = meals.reduce((acc: any, meal) => {
+    let key = meal.date
+    
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    
+    acc[key].push(meal)
+    
+    return acc
+  }, {})
+
+  console.log(Object.entries(listMealsPerDay))
+
 
   return (
     <Container>
@@ -37,18 +69,23 @@ export function Home(){
       </DietPercent>
 
       <Subtitle>
-        Refeições
+        Refeições{meals.length}
       </Subtitle>
 
       <Button 
-        CustomIcon={Plus} 
+        CustomIcon={Plus}
         text='Nova refeição'
         style={{marginBottom: 32}}
         onPress={()=> navigator.navigate('new_meal')}
       />
-
-      <MealsDay />
-      <MealsDay />
+      
+      <FlatList
+        data={Object.entries(listMealsPerDay)}
+        keyExtractor={item => item[0]}
+        renderItem={({ item }) => (
+          <MealsDay data={item[1] as Meal[]}/>
+        )}
+      />
     </Container>
   )
 }

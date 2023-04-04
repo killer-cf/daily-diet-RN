@@ -1,13 +1,19 @@
 import { MealBox } from "@components/MealBox";
 import { Container, Title } from "./styles";
+import { Meal } from "../../contexts/Meals";
 
-export function MealsDay() {
+type Props = {
+  data: Meal[]
+}
+
+export function MealsDay({data}: Props) {
   return (
     <Container>
-      <Title>12.08.22</Title>
+      <Title>{data[0].date}</Title>
 
-      <MealBox status="bad" />
-      <MealBox status="good"/>
+      {data.map((meal) => (
+        <MealBox key={meal.id} mealData={meal}/>
+      ))}
     </Container>
   )
 }
