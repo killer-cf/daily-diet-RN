@@ -1,12 +1,13 @@
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Content, Header, Container, ButtonIcon, IconArrow, Title, InputBox, Label, InputBoxesRow, InputBoxDouble, InputText, RadiosContainer, InputPicker, Placeholder, DateTimePickerContainer } from "./styles";
 import { Radio } from "@components/Radio";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DietStatusParams } from "src/@types/navigation";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { dateFormatter, timeFormatter } from "@utils/formatter";
+import { Meal, MealsContext } from "../../contexts/Meals";
 
 export function NewMeal() {
   const [date, setDate] = useState(new Date());
@@ -14,9 +15,13 @@ export function NewMeal() {
   const [show, setShow] = useState(false)
   const [fDate, setFdate] = useState(dateFormatter.format(new Date()))
   const [fTime, setFtime] = useState(timeFormatter.format(new Date()))
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [dietStatus, setDietStatus] = useState<DietStatusParams>('onDiet')
+  
+  const { addNewMeal } = useContext(MealsContext)
 
   const navigator = useNavigation()
-  const [dietStatus, setDietStatus] = useState<DietStatusParams>('onDiet')
 
   function showMode(currentMode: string) {
     setShow(true)
@@ -35,6 +40,24 @@ export function NewMeal() {
     }
   }
 
+  function handleCreateNewMeal(){
+    if(name.trim().length === 0 || description.trim().length === 0) {
+      return Alert.alert('Cadastro de refeição', 'Informe o nome e descrição para adicionar')
+    }
+
+    const newMeal: Meal = {
+      id: String(new Date().getTime()),
+      name,
+      description,
+      date: fDate,
+      hour: fTime,
+      onDiet: dietStatus === 'onDiet' ? true : false
+    }
+
+    addNewMeal(newMeal)
+    navigator.navigate('create_meal_success', { dietStatus })
+  }
+
   return (
     <Container>
       <Header>
@@ -49,13 +72,18 @@ export function NewMeal() {
         <View>
           <InputBox>
             <Label>Nome</Label>
-            <InputText />
+            <InputText
+              value={name}
+              onChangeText={setName}
+            />
           </InputBox>
           <InputBox>
             <Label>Descrição</Label>
             <InputText 
               style={{height: 120}}
               multiline
+              value={description}
+              onChangeText={setDescription}
             />
           </InputBox>
           <InputBoxesRow>
@@ -102,8 +130,8 @@ export function NewMeal() {
         </View>
         <Button 
           text="Cadastrar refeição" 
-          onPress={()=> 
-            navigator.navigate('create_meal_success', { dietStatus })} />
+          onPress={handleCreateNewMeal}
+        />
       </Content>
     </Container>
   )
