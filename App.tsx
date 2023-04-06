@@ -4,16 +4,13 @@ import { defaultTheme } from './src/themes/deafult';
 
 import { ActivityIndicator } from 'react-native';
 import { Routes } from './src/routes';
-import { MealsContextProvider } from './src/contexts/Meals';
 
 export default function App() {
   const [fontsLoaded] = useFonts({NunitoSans_400Regular, NunitoSans_700Bold})
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <MealsContextProvider>
-        {fontsLoaded ? <Routes /> : <ActivityIndicator color='red' />}    
-      </MealsContextProvider>
+        {fontsLoaded ? <Routes /> : <ActivityIndicator color='red' />}
     </ThemeProvider>
   );
 }

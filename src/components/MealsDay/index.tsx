@@ -1,6 +1,6 @@
 import { MealBox } from "@components/MealBox";
 import { Container, Title } from "./styles";
-import { Meal } from "../../contexts/Meals";
+import { Meal } from "@storage/storageConfig";
 
 type Props = {
   data: Meal[]

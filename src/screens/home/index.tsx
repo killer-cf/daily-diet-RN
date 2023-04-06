@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { FlatList, Image } from "react-native";
 import { Plus } from "phosphor-react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -8,7 +8,8 @@ import logoPng from '@assets/logo.png'
 
 import { Button } from "@components/Button";
 import { MealsDay } from "@components/MealsDay";
-import { Meal, MealsContext } from "../../contexts/Meals";
+import { mealGetAll } from "@storage/meals/mealGetAll";
+import { MealsStorageDTO } from "@storage/meals/mealCreate";
 
 type StatusColorsType = 'red' | 'green'
 
@@ -16,36 +17,16 @@ export function Home(){
   const navigator = useNavigation()
   const dietPercent = 100
   const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
+  const [meals, setMeals] = useState<MealsStorageDTO>([])
 
-  
-  const { meals } = useContext(MealsContext)
+  async function getStorage(){
+    const storage = await mealGetAll()
+    setMeals(storage)
+  }
 
-  // const listMealsPerDay = meals.reduce((acc: any, meal) => {
-  //   let key = meal.date
-    
-  //   if (!acc[key]) {
-  //     acc[key] = []
-  //   }
-    
-  //   acc[key].push(meal)
-    
-  //   return acc
-  // }, {})
-
-  const listMealsPerDay = meals.reduce((acc: any, meal) => {
-    let key = meal.date
-    
-    if (!acc[key]) {
-      acc[key] = []
-    }
-    
-    acc[key].push(meal)
-    
-    return acc
-  }, {})
-
-  console.log(Object.entries(listMealsPerDay))
-
+  useFocusEffect(useCallback(()=> {
+    getStorage()
+  }, []))
 
   return (
     <Container>
@@ -80,11 +61,12 @@ export function Home(){
       />
       
       <FlatList
-        data={Object.entries(listMealsPerDay)}
-        keyExtractor={item => item[0]}
+        data={meals}
+        keyExtractor={item => item.date}
         renderItem={({ item }) => (
-          <MealsDay data={item[1] as Meal[]}/>
+          <MealsDay data={item.meals}/>
         )}
+        showsVerticalScrollIndicator={false}
       />
     </Container>
   )

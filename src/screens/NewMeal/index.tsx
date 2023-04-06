@@ -7,7 +7,9 @@ import { useContext, useState } from "react";
 import { DietStatusParams } from "src/@types/navigation";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { dateFormatter, timeFormatter } from "@utils/formatter";
-import { Meal, MealsContext } from "../../contexts/Meals";
+import { Meal } from "@storage/storageConfig";
+import { mealCreate } from "@storage/meals/mealCreate";
+import { AppError } from "@utils/AppError";
 
 export function NewMeal() {
   const [date, setDate] = useState(new Date());
@@ -18,8 +20,6 @@ export function NewMeal() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [dietStatus, setDietStatus] = useState<DietStatusParams>('onDiet')
-  
-  const { addNewMeal } = useContext(MealsContext)
 
   const navigator = useNavigation()
 
@@ -40,7 +40,7 @@ export function NewMeal() {
     }
   }
 
-  function handleCreateNewMeal(){
+  async function handleCreateNewMeal(){
     if(name.trim().length === 0 || description.trim().length === 0) {
       return Alert.alert('Cadastro de refeição', 'Informe o nome e descrição para adicionar')
     }
@@ -54,8 +54,17 @@ export function NewMeal() {
       onDiet: dietStatus === 'onDiet' ? true : false
     }
 
-    addNewMeal(newMeal)
-    navigator.navigate('create_meal_success', { dietStatus })
+    try {
+      await mealCreate(newMeal)
+      navigator.navigate('create_meal_success', { dietStatus })
+    } catch (error) {
+      if(error instanceof AppError){
+        Alert.alert('Nova refeição', error.message)
+      } else {
+        Alert.alert('Nova refeição','Não foi possível criar uma nova refeição')
+        console.log(error)
+      }
+    }
   }
 
   return (
