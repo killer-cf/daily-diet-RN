@@ -1,14 +1,26 @@
-import { Button } from "@components/Button";
+import { Alert, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { PencilLine, Trash } from "phosphor-react-native";
-import { Alert, View } from "react-native";
 import { useTheme } from "styled-components/native";
-import { ButtonIcon, ButtonsWrapper, Container, Content, DietStatus, DietStatusCircle, Header, IconArrow, MealName, Span, Subtitle, Text, Title } from "./styles";
+
+import { 
+  ButtonIcon, 
+  ButtonsWrapper, 
+  Container, 
+  Content, 
+  DietStatus, 
+  DietStatusCircle, 
+  Header, 
+  IconArrow, 
+  MealName, 
+  Span, 
+  Subtitle, 
+  Text, 
+  Title } from "./styles";
+import { Button } from "@components/Button";
 import { mealRemoveById } from "@storage/meals/mealRemoveById";
 import { Meal as M } from "@storage/storageConfig";
 import { AppError } from "@utils/AppError";
-
-type StatusColorsType = 'red' | 'green'
 
 type RouteMealDataParams = {
   mealData: M,
@@ -20,8 +32,7 @@ export function Meal(){
   const route = useRoute()
   const { mealData } = route.params as RouteMealDataParams
 
-  const dietPercent = 100
-  const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
+  const status = mealData.onDiet ? 'green' : 'red'
 
   async function remove() {
     try {
@@ -55,10 +66,10 @@ export function Meal(){
   }
 
   return (
-    <Container backcolor={statusColor}>
+    <Container backcolor={status}>
       <Header>
         <ButtonIcon onPress={()=> navigator.navigate('home')}>
-          <IconArrow color={statusColor === 'green' ? colors.green_dark : colors.red_dark}/>
+          <IconArrow color={status === 'green' ? colors.green_dark : colors.red_dark}/>
         </ButtonIcon>
         <Title>
           Refeição
