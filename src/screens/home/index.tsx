@@ -50,7 +50,7 @@ export function Home(){
       </DietPercent>
 
       <Subtitle>
-        Refeições{meals.length}
+        Refeições
       </Subtitle>
 
       <Button 

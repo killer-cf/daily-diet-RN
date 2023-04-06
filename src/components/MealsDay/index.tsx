@@ -9,9 +9,9 @@ type Props = {
 export function MealsDay({data}: Props) {
   return (
     <Container>
-      <Title>{data[0].date}</Title>
+      <Title>{data && data[0].date}</Title>
 
-      {data.map((meal) => (
+      {data && data.map((meal) => (
         <MealBox key={meal.id} mealData={meal}/>
       ))}
     </Container>
