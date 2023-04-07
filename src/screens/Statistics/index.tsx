@@ -1,7 +1,20 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components/native";
-import { Container, StatisticBox, ButtonIcon, IconArrow, Percent, Text, Subtitle, Header, Title, BoxWraper, Content } from "./styles";
 import { useCallback, useState } from "react";
+import { useTheme } from "styled-components/native";
+
+import { 
+  Container, 
+  StatisticBox, 
+  ButtonIcon, 
+  IconArrow, 
+  Percent, 
+  Text, 
+  Subtitle, 
+  Header, 
+  Title, 
+  BoxWraper, 
+  Content 
+} from "./styles";
 import { MealsStorageDTO } from "@storage/meals/mealCreate";
 import { mealGetAll } from "@storage/meals/mealGetAll";
 import { Meal } from "@storage/storageConfig";

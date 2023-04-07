@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { FlatList, Image } from "react-native";
 import { Plus } from "phosphor-react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTheme } from "styled-components/native";
 
 import { Avatar, ButtonIcon, Container, DietPercent, Header, IconArrow, Percent, Subtitle, Text } from "./styles";
 import logoPng from '@assets/logo.png'
@@ -10,7 +11,6 @@ import { Button } from "@components/Button";
 import { MealsDay } from "@components/MealsDay";
 import { mealGetAll } from "@storage/meals/mealGetAll";
 import { MealsStorageDTO } from "@storage/meals/mealCreate";
-import { useTheme } from "styled-components/native";
 
 type StatusColorsType = 'red' | 'green'
 
