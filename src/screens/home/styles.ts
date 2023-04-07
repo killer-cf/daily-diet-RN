@@ -79,7 +79,6 @@ export const ButtonIcon = styled.TouchableOpacity`
 
 export const IconArrow = styled(ArrowUpRight).attrs(({theme})=> ({
   size: 24,
-  color: theme.colors.green_dark,
 }))``
 
 export const Subtitle = styled.Text`

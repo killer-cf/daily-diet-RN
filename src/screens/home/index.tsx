@@ -10,14 +10,20 @@ import { Button } from "@components/Button";
 import { MealsDay } from "@components/MealsDay";
 import { mealGetAll } from "@storage/meals/mealGetAll";
 import { MealsStorageDTO } from "@storage/meals/mealCreate";
+import { useTheme } from "styled-components/native";
 
 type StatusColorsType = 'red' | 'green'
 
 export function Home(){
-  const navigator = useNavigation()
-  const dietPercent = 100
-  const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
   const [meals, setMeals] = useState<MealsStorageDTO>([])
+  const navigator = useNavigation()
+  const { colors } = useTheme()
+
+  const onDietMealsCount = meals.flatMap(meal => meal.meals).filter(meal => meal.onDiet).length;
+  const totalMeals = meals.flatMap(meal => meal.meals).length;
+  const onDietPercentage = (onDietMealsCount / totalMeals) * 100;
+
+  const statusColor: StatusColorsType = onDietPercentage >= 70 ? 'green' : 'red'
 
   async function getStorage(){
     const storage = await mealGetAll()
@@ -42,10 +48,10 @@ export function Home(){
       </Header>
 
       <DietPercent backcolor={statusColor}>
-        <Percent>90,86%</Percent>
+        <Percent>{onDietPercentage.toFixed(2)}%</Percent>
         <Text>das refeições dentro da dieta</Text>
         <ButtonIcon onPress={()=> navigator.navigate('statistics')}>
-          <IconArrow />
+          <IconArrow color={statusColor === 'green' ? colors.green_dark : colors.red_dark} />
         </ButtonIcon>
       </DietPercent>
 
