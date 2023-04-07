@@ -91,6 +91,7 @@ export function Meal(){
           <Button
             CustomIcon={PencilLine}
             text="Editar refeição"
+            onPress={()=> navigator.navigate('edit_meal', { mealData })}
           />
           <Button
             CustomIcon={Trash} 

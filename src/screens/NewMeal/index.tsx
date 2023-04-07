@@ -1,25 +1,52 @@
-import { Button } from "@components/Button";
-import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { Alert, View } from "react-native";
-import { Content, Header, Container, ButtonIcon, IconArrow, Title, InputBox, Label, InputBoxesRow, InputBoxDouble, InputText, RadiosContainer, InputPicker, Placeholder, DateTimePickerContainer } from "./styles";
-import { Radio } from "@components/Radio";
-import { useContext, useState } from "react";
-import { DietStatusParams } from "src/@types/navigation";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+
+import { 
+  Content, 
+  Header, 
+  Container, 
+  ButtonIcon, 
+  IconArrow, 
+  Title, 
+  InputBox, 
+  Label, 
+  InputBoxesRow, 
+  InputBoxDouble, 
+  InputText, 
+  RadiosContainer, 
+  InputPicker, 
+  Placeholder, 
+  DateTimePickerContainer 
+} from "./styles";
+import { Radio } from "@components/Radio";
+import { Button } from "@components/Button";
+import { DietStatusParams } from "src/@types/navigation";
 import { dateFormatter, timeFormatter } from "@utils/formatter";
 import { Meal } from "@storage/storageConfig";
 import { mealCreate } from "@storage/meals/mealCreate";
 import { AppError } from "@utils/AppError";
+import { mealEdit } from "@storage/meals/mealEdit";
+
+type RouteMealDataParams = {
+  mealData: Meal,
+}
 
 export function NewMeal() {
+  const route = useRoute();
+  let mealData = route.name === 'edit_meal' ? (route.params as RouteMealDataParams).mealData : null;
+  
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('')
   const [show, setShow] = useState(false)
-  const [fDate, setFdate] = useState(dateFormatter.format(new Date()))
-  const [fTime, setFtime] = useState(timeFormatter.format(new Date()))
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [dietStatus, setDietStatus] = useState<DietStatusParams>('onDiet')
+  const [fDate, setFdate] = useState(mealData?.date || dateFormatter.format(new Date()))
+  const [fTime, setFtime] = useState(mealData?.hour || timeFormatter.format(new Date()))
+  const [name, setName] = useState(mealData?.name || '')
+  const [description, setDescription] = useState(mealData?.description || '')
+  const [dietStatus, setDietStatus] = useState<DietStatusParams>(
+    mealData ? (mealData.onDiet && 'onDiet' || 'offDiet') : 'onDiet'
+  )
 
   const navigator = useNavigation()
 
@@ -40,23 +67,28 @@ export function NewMeal() {
     }
   }
 
-  async function handleCreateNewMeal(){
+  async function handleMeal() {
     if(name.trim().length === 0 || description.trim().length === 0) {
       return Alert.alert('Cadastro de refeição', 'Informe o nome e descrição para adicionar')
     }
 
-    const newMeal: Meal = {
-      id: String(new Date().getTime()),
+    const meal: Meal = {
+      id: mealData ? mealData.id : String(new Date().getTime()),
       name,
       description,
       date: fDate,
       hour: fTime,
       onDiet: dietStatus === 'onDiet' ? true : false
     }
-
+  
     try {
-      await mealCreate(newMeal)
-      navigator.navigate('create_meal_success', { dietStatus })
+      if(mealData) {
+        await mealEdit(meal)
+        navigator.navigate('create_meal_success', { dietStatus })
+      } else {
+        await mealCreate(meal)
+        navigator.navigate('create_meal_success', { dietStatus })
+      }
     } catch (error) {
       if(error instanceof AppError){
         Alert.alert('Nova refeição', error.message)
@@ -65,7 +97,7 @@ export function NewMeal() {
         console.log(error)
       }
     }
-  }
+  }  
 
   return (
     <Container>
@@ -74,7 +106,7 @@ export function NewMeal() {
           <IconArrow />
         </ButtonIcon>
         <Title>
-          Nova refeição
+          {route.name === 'new_meal' ? 'Nova' : 'Editar'} refeição
         </Title>
       </Header>
       <Content>
@@ -138,8 +170,8 @@ export function NewMeal() {
           </RadiosContainer>
         </View>
         <Button 
-          text="Cadastrar refeição" 
-          onPress={handleCreateNewMeal}
+          text={`${route.name === 'new_meal' ? 'Cadastrar' : 'Editar'} refeição`}
+          onPress={handleMeal}
         />
       </Content>
     </Container>

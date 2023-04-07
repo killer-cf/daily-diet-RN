@@ -62,9 +62,9 @@ export function Home(){
       
       <FlatList
         data={meals}
-        keyExtractor={item => item.date}
+        keyExtractor={item => item?.date}
         renderItem={({ item }) => (
-          <MealsDay data={item.meals}/>
+          <MealsDay data={item?.meals}/>
         )}
         showsVerticalScrollIndicator={false}
       />

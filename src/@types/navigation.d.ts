@@ -8,6 +8,9 @@ export declare global {
       home: undefined;
       statistics: undefined;
       new_meal: undefined;
+      edit_meal: {
+        mealData: Meal
+      };
       meal: {
         mealData: Meal
       };

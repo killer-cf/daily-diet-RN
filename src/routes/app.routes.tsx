@@ -15,6 +15,7 @@ export function AppRoutes() {
       <Screen name='statistics' component={Statistics} />
       <Screen name='meal' component={Meal} />
       <Screen name='new_meal' component={NewMeal} />
+      <Screen name='edit_meal' component={NewMeal} />
       <Screen name='create_meal_success' component={MealSuccess} />
     </Navigator>
   )
