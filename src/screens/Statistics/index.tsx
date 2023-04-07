@@ -1,20 +1,55 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTheme } from "styled-components/native";
 import { Container, StatisticBox, ButtonIcon, IconArrow, Percent, Text, Subtitle, Header, Title, BoxWraper, Content } from "./styles";
+import { useCallback, useState } from "react";
+import { MealsStorageDTO } from "@storage/meals/mealCreate";
+import { mealGetAll } from "@storage/meals/mealGetAll";
+import { Meal } from "@storage/storageConfig";
 
 type StatusColorsType = 'red' | 'green'
 
 export function Statistics() {
-  const { colors } = useTheme()
+  const [meals, setMeals] = useState<MealsStorageDTO>([])
   const navigator = useNavigation()
+  const { colors } = useTheme()
 
-  const dietPercent = 100
-  const statusColor: StatusColorsType = dietPercent >= 70 ? 'green' : 'red'
+  const onlyMeals = meals.flatMap(meal => meal.meals)
+  const onDietMealsCount = onlyMeals.filter(meal => meal.onDiet).length;
+  const totalMeals = meals.flatMap(meal => meal.meals).length;
+  const onDietPercentage = (onDietMealsCount / totalMeals) * 100;
+
+  const statusColor: StatusColorsType = onDietPercentage >= 70 ? 'green' : 'red'
+
+  
+  function findBestOnDietSequence(meals: Meal[]) {
+    let maxSoFar = 0
+    let maxEndingHere = 0
+
+    for (let meal of meals) {
+      if (meal.onDiet) {
+        maxEndingHere = Math.max(maxEndingHere + 1, 1)
+        maxSoFar = Math.max(maxSoFar, maxEndingHere)
+      } else {
+        maxEndingHere = 0
+      }
+    }
+
+    return maxSoFar
+  }
+          
+  async function getStorage(){
+    const storage = await mealGetAll()
+    setMeals(storage)
+  }
+
+  useFocusEffect(useCallback(()=> {
+    getStorage()
+  }, []))
 
   return (
       <Container backcolor={statusColor}>
         <Header>
-          <Percent>90,86%</Percent>
+          <Percent>{onDietPercentage.toFixed(2)}%</Percent>
           <Text>das refeições dentro da dieta</Text>
           <ButtonIcon onPress={()=> navigator.navigate('home')}>
             <IconArrow color={statusColor === 'green' ? colors.green_dark : colors.red_dark}/>
@@ -25,24 +60,24 @@ export function Statistics() {
           <Subtitle>Estatísticas gerais</Subtitle>
 
           <StatisticBox backcolor="gray">
-            <Title>22</Title>
+            <Title>{findBestOnDietSequence(onlyMeals)}</Title>
             <Text>melhor sequência de pratos dentro da dieta</Text>
           </StatisticBox>
 
           <StatisticBox backcolor="gray">
-            <Title>119</Title>
+            <Title>{totalMeals}</Title>
             <Text>refeições registradas</Text>
           </StatisticBox>
 
           <BoxWraper>
 
             <StatisticBox style={{flex: 1}} backcolor="green">
-              <Title>99</Title>
+              <Title>{onDietMealsCount}</Title>
               <Text>refeições dentro da dieta</Text>
             </StatisticBox>
 
             <StatisticBox style={{flex: 1}} backcolor="red">
-              <Title>10</Title>
+              <Title>{totalMeals - onDietMealsCount}</Title>
               <Text>refeições fora da dieta</Text>
             </StatisticBox>
 
